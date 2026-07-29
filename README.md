@@ -37,7 +37,7 @@ See [postman/README.md](postman/README.md).
 
 ## TODO
 
-- [ ] Page objects for key flows (home, product, cart, checkout, account)
+- [x] Page objects for key flows (home, product, cart, checkout, account) — see `playwright/pages/`
 - [ ] Playwright specs: browsing/search, cart, checkout, auth
 - [ ] Postman collection: auth, products, cart, orders (built in the Postman app)
 - [ ] Export Postman collection + environment into `postman/`
