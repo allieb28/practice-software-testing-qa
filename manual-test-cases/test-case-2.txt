@@ -1,0 +1,27 @@
+Go to URL https://with-bugs.practicesoftwaretesting.com/#
+click on "categories" drop down menu
+select "hand tools" from the drop down menu
+select Pliers product image
+click [+] button to increase or [- ]to decrease quantity | +/- buttons should inc/dec item quantity accordingly
+
+
+===========================================
+
+BUG TITLE: Product quantity buttons do not inc/dec appropriately
+
+ISSUE: 
+When pressing the [+] / [-] button for item quantity, iten count does not change
+
+REPRO: 
+Go to URL https://with-bugs.practicesoftwaretesting.com/#
+click on "categories" drop down menu
+select "hand tools" from the drop down menu
+select Pliers product image
+click [+] button to increase or [- ]to decrease quantity 
+-  +/- buttons are not inc/dec item quantity accordingly
+
+EXPECTED RESULTS: 
+ [+] / [-] buttons should inc/dec item quantity accordingly
+
+ACTUAL RESULTS:
+Item quantity is unchanging when [+]/[-] buttons are pressed
