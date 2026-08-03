@@ -1,0 +1,22 @@
+Go to URL https://with-bugs.practicesoftwaretesting.com/#
+click on "categories" drop down manu | there should be 5 options "Hand Tools", "Power Tools", "Other", "Special Tools", and "Rentals"
+
+
+===========================================
+
+BUG TITLE: Undefined in "Categories" drop down menu that resolves to missing product page
+
+ISSUE: 
+When clicking on "categories" drop down menu, there is an "Undefined" Link that resolves to a incomplete product page (missing products)
+
+REPRO: 
+Go to URL https://with-bugs.practicesoftwaretesting.com/#
+click on "categories" drop down menu
+select "undefined" from the drop down menu
+- Undefined should be labeled as "Other" and the link should resolve to "Other" products page
+
+EXPECTED RESULTS: 
+Undefined should be labeled as "Other" and when clicked the link should resolve to "Other" products page
+
+ACTUAL RESULTS:
+"Undefined" is in the drop down menu - when pressed, the link resolves to incomplete product page

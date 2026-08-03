@@ -1,0 +1,24 @@
+Go to URL https://with-bugs.practicesoftwaretesting.com/#
+click on "categories" drop down menu
+select "chainsaws" from the drop down menu | Chainsaw products page should successfully load
+
+
+===========================================
+
+BUG TITLE: Chainsaw product page resolved to 404 Error page
+
+ISSUE: 
+When selecting "Chanisaws" from categories drop down menu, the link resolves to "404 Error Page Not Found"
+
+REPRO: 
+Go to URL https://with-bugs.practicesoftwaretesting.com/#
+click on "categories" drop down menu
+select "chainsaws" from the drop down menu 
+- Link reloves to a "404 Error"
+
+EXPECTED RESULTS: 
+Link should resolve to chainsaw products page
+
+ACTUAL RESULTS:
+throws 404 Error Page not found 
+

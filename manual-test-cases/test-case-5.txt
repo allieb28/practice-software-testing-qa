@@ -1,0 +1,27 @@
+Go to URL https://with-bugs.practicesoftwaretesting.com/#
+click on "categories" drop down menu
+select "hand tools" from the drop down menu
+select "Hammer" product image
+scroll to "Related Products " section | related products section header should be spelled correctly
+
+
+===========================================
+
+BUG TITLE: Related Products section header misspelled
+
+ISSUE: 
+Under a product selection where there are a list of similar products, the section header is misspelled as "Reltded products"
+
+REPRO: 
+Go to URL https://with-bugs.practicesoftwaretesting.com/#
+click on "categories" drop down menu
+select "hand tools" from the drop down menu
+select "Hammer" product image
+scroll to "Related Products " header
+- "Related Products" section header is misspelled as "Reltded products"
+
+EXPECTED RESULTS: 
+"Reltded products" section header should be spelled as "Related Products"
+
+ACTUAL RESULTS:
+"Related Products" section header is misspelled as "Reltded products"

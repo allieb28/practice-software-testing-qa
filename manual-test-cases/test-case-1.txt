@@ -1,0 +1,33 @@
+Go to URL https://with-bugs.practicesoftwaretesting.com/#/
+click on "categories" drop down menu
+select "hand tools" from the drop down menu
+select Pliers product image
+click [add to cart] button
+click on shopping cart Icon
+Click the "X" under total for the row Pliers | EXPECTED: Item line should be deleted 
+
+
+
+
+===========================================
+
+BUG TITLE: Delete Button in Cart Nonfunctional
+
+ISSUE: 
+After adding items to cart and navigasting to cart to remove the item via the "X" button, item is not deleted.
+
+REPRO: 
+Go to URL https://with-bugs.practicesoftwaretesting.com/#/product/2
+click on "categories" drop down menu
+select "hand tools" from the drop down menu
+select Pliers product image
+click [add to cart] button
+click on shopping cart Icon
+Click the "X" under total for the row Pliers 
+- the product line is not removed from cart
+
+EXPECTED RESULTS: 
+Item line should be removed from cart after clicking the "X" button
+
+ACTUAL RESULTS:
+Item line was not removed from cart when "X" button was clicked
