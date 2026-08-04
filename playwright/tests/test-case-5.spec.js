@@ -7,16 +7,7 @@ test.describe("Test Case 5: Related Products Section Header Spelling", () => {
 		await basePage.goto(basePage.sprint5withBugsUrl);
 		await basePage.categoriesMenu.click();
 		await basePage.handToolsLink.click();
-		const hammerProductImage = page.locator(
-			'[src="assets/img/products/hammer02.jpeg"]',
-		);
-		await hammerProductImage.click();
+		await basePage.hammerImg.click();
 		await expect(basePage.relatedProductsHeader).toHaveText("Related Products");
 	});
 });
-
-// Go to URL https://with-bugs.practicesoftwaretesting.com/#
-//click on "categories" drop down menu
-//select "hand tools" from the drop down menu
-//select "Hammer" product image
-//scroll to "Related Products " section | related products section header should be spelled correctly

@@ -8,6 +8,7 @@ class FavoritesPage extends BasePage {
     this.productName = page.locator('[data-test="product-name"]');
     this.productDescription = page.locator('[data-test="product-description"]');
     this.deleteBtn = page.locator('[data-test="delete"]');
+    this.emptyFavoritesMessage = page.getByText('There are no favorites yet.');
   }
 
   async goto() {

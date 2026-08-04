@@ -1,7 +1,7 @@
 Go to URL https://with-bugs.practicesoftwaretesting.com/#
 click on "categories" drop down menu
 select "hand tools" from the drop down menu
-select Pliers product image
+select Hammer product image
 click [+] button to increase or [- ]to decrease quantity | +/- buttons should inc/dec item quantity accordingly
 
 
@@ -16,7 +16,7 @@ REPRO:
 Go to URL https://with-bugs.practicesoftwaretesting.com/#
 click on "categories" drop down menu
 select "hand tools" from the drop down menu
-select Pliers product image
+select Hammer product image
 click [+] button to increase or [- ]to decrease quantity 
 -  +/- buttons are not inc/dec item quantity accordingly
 

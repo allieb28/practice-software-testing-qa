@@ -1,0 +1,39 @@
+Go to URL : https://practicesoftwaretesting.com/ ; sprint5Url
+Click "Sign In" link
+click "Register your Account" link
+in "First name" text box - input "allie"
+in "Last name" text box - input "doe"
+in "Date of Birth" text box - input "1999-01-03"
+Select "Country" dropdown - Select "United States of America"
+In the "Postal code" text box - input "70772"
+in "House number" text box - input "22"
+in "Street" text box - input "Street Rd"
+in "City" text box - input "Baton Rouge"
+in "State" text box - input "Louisiana"
+in "Phone" text box - input 2222222223
+in "Email" text box - input "allie@yahoo.com"
+in "Password" text box - input "1234567891Aa$"
+Click [Register] Button
+//in "Email" text box - input "allie@yahoo.com"
+//in "Password" text box - input "1234567891Aa$"
+Click the [Login] button // if autofill is on 
+
+Click on Profile
+Click "My Favorites" link
+Click the [X] for "Saftey Goggles"
+click on the "Cart" Icon
+Select the [X] for the "Pliers"
+click "Proceed to Checkout"
+click "Proceed to Checkout"
+Select the "Country" Drop down menu 
+Select "United States of America" option
+in "House number" text box - input "22"
+click [Proceed to Checkout]
+Select "Payment" drop down menu
+Select "Credit Card"
+for "Credit Card Number" text box - input "1111-1111-1111-1111"
+for "Expiration Date" text box - input "01/2032"
+for "CVV" text box - input "123"
+for "card Holder Name" text box - input "Allie"
+Click [Confirm] button
+//check for payment was successful txt
