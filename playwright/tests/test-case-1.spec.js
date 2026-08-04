@@ -11,10 +11,7 @@ test.describe("Test Case 1: Add and Remove Item from Cart", () => {
 		await basePage.goto(basePage.sprint5withBugsUrl);
 		await basePage.categoriesMenu.click();
 		await basePage.handToolsLink.click();
-		const hammerProductImage = page.locator(
-			'[src="assets/img/products/hammer02.jpeg"]',
-		);
-		await hammerProductImage.click();
+		await basePage.hammerImg.click();
 		await productDetailPage.addToCartBtn.click();
 		await basePage.cartLink.click();
 		await cartPage.removeItemByTitle("Hammer");

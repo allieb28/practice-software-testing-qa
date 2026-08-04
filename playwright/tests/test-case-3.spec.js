@@ -7,7 +7,7 @@ test.describe("Test Case 3: Chainsaw Category Page Load", () => {
 
 	test("Navigate to Chainsaw Category Page", async ({ page }) => {
 		const basePage = new BasePage(page);
-		await basePage.goto("https://with-bugs.practicesoftwaretesting.com/#");
+		await basePage.goto(basePage.sprint5UrlwithBugs);
 		await basePage.categoriesMenu.click();
 		await basePage.chainsawsLink.click();
 		await expect(basePage.page).toHaveURL(/\/#\/chainsaws/);

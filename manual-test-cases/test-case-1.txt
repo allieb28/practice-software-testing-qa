@@ -1,10 +1,10 @@
 Go to URL https://with-bugs.practicesoftwaretesting.com/#/
 click on "categories" drop down menu
 select "hand tools" from the drop down menu
-select Pliers product image
+select Hammer product image
 click [add to cart] button
 click on shopping cart Icon
-Click the "X" under total for the row Pliers | EXPECTED: Item line should be deleted 
+Click the "X" under total for the row Hammer | EXPECTED: Item line should be deleted 
 
 
 
@@ -20,10 +20,10 @@ REPRO:
 Go to URL https://with-bugs.practicesoftwaretesting.com/#/product/2
 click on "categories" drop down menu
 select "hand tools" from the drop down menu
-select Pliers product image
+select Hammer product image
 click [add to cart] button
 click on shopping cart Icon
-Click the "X" under total for the row Pliers 
+Click the "X" under total for the row Hammer 
 - the product line is not removed from cart
 
 EXPECTED RESULTS: 

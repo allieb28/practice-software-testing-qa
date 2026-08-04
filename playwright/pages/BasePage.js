@@ -22,6 +22,7 @@ class BasePage {
 		this.cartQuantity = page.locator('[data-test="cart-quantity"]');
 		this.signInLink = page.locator('[data-test="nav-sign-in"]');
 		this.signOutLink = page.locator('[data-test="nav-sign-out"]');
+		this.accountMenuToggle = page.locator("#menu"); // opens the account dropdown ("My account", "My favorites", etc. are hidden until this is clicked)
 		this.myAccountLink = page.locator('[data-test="nav-my-account"]');
 		this.myProfileLink = page.locator('[data-test="nav-my-profile"]');
 		this.myFavoritesLink = page.locator('[data-test="nav-my-favorites"]');
@@ -29,6 +30,14 @@ class BasePage {
 		this.myMessagesLink = page.locator('[data-test="nav-my-messages"]');
 		this.menuToggle = page.locator('[data-test="nav-menu"]');
 		this.languageSelect = page.locator('[data-test="language-select"]');
+		this.pliersImg = page.locator('[src="assets/img/products/pliers02.avif"]');
+		this.beltSanderImg = page.locator(
+			'[src="assets/img/products/sander02.avif"]',
+		);
+		this.gogglesImg = page.locator(
+			'[src="assets/img/products/goggles01.avif"]',
+		);
+		this.hammerImg = page.locator('[src="assets/img/products/hammer02.jpeg"]');
 	}
 
 	async goto(path = "/") {
@@ -56,6 +65,7 @@ class BasePage {
 	}
 
 	async goToAccountOverview() {
+		await this.accountMenuToggle.click();
 		await this.myAccountLink.click();
 	}
 
