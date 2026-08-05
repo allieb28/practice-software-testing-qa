@@ -6,7 +6,8 @@ API testing for [Practice Software Testing](https://api.practicesoftwaretesting.
 
 1. Create a new collection: **Practice Software Testing API**.
 2. Import `environment.template.json` as a new environment, then fill in `baseUrl`
-   (`https://api.practicesoftwaretesting.com/api`) and any auth token variables you add.
+   (`https://api.practicesoftwaretesting.com` — no `/api` suffix; that prefix only exists on the
+   `/api/documentation` docs page, not on the actual API resources) and any auth token variables you add.
 3. Suggested folder structure inside the collection, mirroring the Swagger tags:
    - Auth
    - Products
