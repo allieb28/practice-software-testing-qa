@@ -1,0 +1,2365 @@
+{
+  "info": {
+    "_postman_id": "78b8ab70-1ed7-4fdf-a738-64360d7ccbe8",
+    "name": "Toolshop API two end-to-end flows",
+    "description": "Toolshop REST API technical description\n\nContact Support:\n Name: Testsmith\n Email: info@testsmith.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50888243",
+    "_collection_link": "https://go.postman.co/collection/50888243-78b8ab70-1ed7-4fdf-a738-64360d7ccbe8?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "End-to-End (deletion)",
+      "item": [
+        {
+          "name": "Login customer Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"login succeeded\", () => pm.response.to.have.status(200));",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.environment.set(\"authToken\", body.access_token);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@practicesoftwaretesting.com\",\n  \"password\": \"welcome01\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "A token",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"customer@practicesoftwaretesting.com\",\n  \"password\": \"welcome01\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"access_token\": \"super-secret-token\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 120\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create a new cart Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"cart created\", () => pm.response.to.have.status(201));",
+                  "pm.environment.set(\"cartId\", pm.response.json().id);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/carts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts"
+              ]
+            },
+            "description": "Create a new cart"
+          },
+          "response": [
+            {
+              "name": "Create cartId",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"1234\"\n}"
+            },
+            {
+              "name": "Returns when the resource is not found",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Requested item not found\"\n}"
+            },
+            {
+              "name": "Returns when the method is not allowed for the requested route",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts"
+                  ]
+                }
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Method is not allowed for the requested route\"\n}"
+            },
+            {
+              "name": "Returns when the server was not able to process the content",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/carts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Retrieve all products Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"productId\", pm.response.json().data[0].id);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/products?sort=name,asc&page=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "by_brand",
+                  "value": "string",
+                  "description": "Id of brand",
+                  "disabled": true
+                },
+                {
+                  "key": "by_category",
+                  "value": "string",
+                  "description": "Id of category",
+                  "disabled": true
+                },
+                {
+                  "key": "is_rental",
+                  "value": "string",
+                  "description": "Indication if we like to retrieve rentals products",
+                  "disabled": true
+                },
+                {
+                  "key": "between",
+                  "value": "string",
+                  "description": "Can be used to define a price range, like: price,10,30",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "name,asc",
+                  "description": "Can be used to sort based on specific column value, like: name,asc OR name,desc OR price,asc OR price,desc"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "pagenumber"
+                }
+              ]
+            },
+            "description": "Retrieve all products"
+          },
+          "response": [
+            {
+              "name": "Returns when the resource is not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/products?by_brand=string&by_category=string&is_rental=string&between=string&sort=string&page=6018",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "description": "Id of brand",
+                      "key": "by_brand",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Id of category",
+                      "key": "by_category",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Indication if we like to retrieve rentals products",
+                      "key": "is_rental",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Can be used to define a price range, like: price,10,30",
+                      "key": "between",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Can be used to sort based on specific column value, like: name,asc OR name,desc OR price,asc OR price,desc",
+                      "key": "sort",
+                      "value": "string"
+                    },
+                    {
+                      "description": "pagenumber",
+                      "key": "page",
+                      "value": "6018"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Requested item not found\"\n}"
+            },
+            {
+              "name": "Returns when the method is not allowed for the requested route",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/products?by_brand=string&by_category=string&is_rental=string&between=string&sort=string&page=6018",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "description": "Id of brand",
+                      "key": "by_brand",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Id of category",
+                      "key": "by_category",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Indication if we like to retrieve rentals products",
+                      "key": "is_rental",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Can be used to define a price range, like: price,10,30",
+                      "key": "between",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Can be used to sort based on specific column value, like: name,asc OR name,desc OR price,asc OR price,desc",
+                      "key": "sort",
+                      "value": "string"
+                    },
+                    {
+                      "description": "pagenumber",
+                      "key": "page",
+                      "value": "6018"
+                    }
+                  ]
+                }
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Method is not allowed for the requested route\"\n}"
+            },
+            {
+              "name": "200 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/products?by_brand=&by_category=&is_rental=&between=&sort=&page=",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "by_brand",
+                      "value": "",
+                      "description": "Id of brand"
+                    },
+                    {
+                      "key": "by_category",
+                      "value": "",
+                      "description": "Id of category"
+                    },
+                    {
+                      "key": "is_rental",
+                      "value": "",
+                      "description": "Indication if we like to retrieve rentals products"
+                    },
+                    {
+                      "key": "between",
+                      "value": "",
+                      "description": "Can be used to define a price range, like: price,10,30"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "",
+                      "description": "Can be used to sort based on specific column value, like: name,asc OR name,desc OR price,asc OR price,desc"
+                    },
+                    {
+                      "key": "page",
+                      "value": "",
+                      "description": "pagenumber"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Date",
+                  "value": "Tue, 04 Aug 2026 20:45:07 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "Apache/2.4.52 (Ubuntu)"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "max-age=120, public"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "Content-Disposition"
+                },
+                {
+                  "key": "Upgrade",
+                  "value": "h2"
+                },
+                {
+                  "key": "Connection",
+                  "value": "Upgrade, close"
+                },
+                {
+                  "key": "ETag",
+                  "value": "\"372fe288f25642ccc3ce3daecb80fec3-gzip\""
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding"
+                },
+                {
+                  "key": "Content-Encoding",
+                  "value": "gzip"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "4279"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"current_page\": 1,\n    \"data\": [\n        {\n            \"id\": \"01KZ75SR4W1QZDQY9DFKGZEH72\",\n            \"name\": \"Combination Pliers\",\n            \"description\": \"Versatile combination pliers designed for gripping, bending, and cutting wire with ease. Featuring chrome vanadium steel construction with induction-hardened cutting edges, these pliers deliver excellent grip and leverage for a wide range of tasks. The precision-machined jaws combine flat gripping surfaces with a pipe-grip section and integrated wire cutter for true multi-purpose functionality. Ergonomic bi-component handles reduce hand fatigue during extended use and provide a secure hold even with oily or gloved hands. The joint is precisely fitted to eliminate play and ensure smooth operation over thousands of cycles. Ideal for electricians, mechanics, and DIY enthusiasts tackling everyday projects around the workshop or job site.\",\n            \"price\": 14.15,\n            \"is_location_offer\": false,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKDT\",\n                \"by_name\": \"Helinton Fantin\",\n                \"by_url\": \"https://unsplash.com/@fantin\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/W8BNwvOvW4M\",\n                \"file_name\": \"pliers01.avif\",\n                \"title\": \"Combination pliers\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83P\",\n                \"name\": \"Pliers\",\n                \"slug\": \"pliers\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM45\",\n                \"name\": \"ForgeFlex Tools\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR51GW2X13FHQQSCAKCJ\",\n            \"name\": \"Pliers\",\n            \"description\": \"Reliable general-purpose pliers crafted from drop-forged carbon steel for long-lasting durability in demanding working conditions. The serrated jaws provide a firm grip on a variety of materials including wire, nails, small fasteners, and irregularly shaped objects. Comfortable rubber-coated handles absorb vibration and reduce hand fatigue during extended use, while the non-slip surface ensures confident handling. The precision pivot joint maintains alignment under load, delivering smooth, controlled jaw action with every squeeze. Heat-treated steel construction resists wear and deformation even under heavy use. A must-have foundational tool for any workshop, equally suited for professional tradespeople and home repair projects.\",\n            \"price\": 12.01,\n            \"is_location_offer\": false,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKDV\",\n                \"by_name\": \"Everyday basics\",\n                \"by_url\": \"https://unsplash.com/@zanardi\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/I8eTuMmxIfo\",\n                \"file_name\": \"pliers02.avif\",\n                \"title\": \"Pliers\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83P\",\n                \"name\": \"Pliers\",\n                \"slug\": \"pliers\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM45\",\n                \"name\": \"ForgeFlex Tools\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR55M66Z797N5ES43CE9\",\n            \"name\": \"Bolt Cutters\",\n            \"description\": \"Heavy-duty bolt cutters engineered to slice through hardened bolts, chains, padlocks, and wire fencing with minimal effort. The compound leverage mechanism multiplies your cutting force by a factor of 30, enabling clean cuts through materials up to 10mm in diameter. Hardened alloy steel blades are precisely ground and heat-treated to maintain a sharp edge through years of repeated use on tough materials. Ergonomic rubber grips and the generous 750mm handle length provide excellent control, leverage, and reach during overhead or awkward-angle cuts. An adjustable blade tension screw lets you fine-tune the jaw alignment for optimal cutting performance. Built for demolition crews, locksmiths, fencing contractors, and maintenance professionals who need reliable cutting power day after day.\",\n            \"price\": 48.41,\n            \"is_location_offer\": true,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKDW\",\n                \"by_name\": \"Michael Dziedzic\",\n                \"by_url\": \"https://unsplash.com/@lazycreekimages\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/pM9pkc9J918\",\n                \"file_name\": \"pliers03.avif\",\n                \"title\": \"Bolt cutters\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83P\",\n                \"name\": \"Pliers\",\n                \"slug\": \"pliers\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM46\",\n                \"name\": \"MightyCraft Hardware\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR58NT1ZR9R8K3XZMF3G\",\n            \"name\": \"Long Nose Pliers\",\n            \"description\": \"Precision long nose pliers with narrow tapered jaws designed for reaching into tight, confined spaces and bending fine wire with accuracy. Made from chrome vanadium steel with induction-hardened cutting edges that cleanly sever copper, brass, and steel wire without crushing or fraying. The slim jaw profile tapers to a fine point, making these pliers indispensable for electrical terminal work, jewelry making, and intricate mechanical repairs. Bi-component comfort grips minimize hand strain during detailed tasks requiring a steady hand and controlled pressure. The leaf-spring joint returns the handles to the open position automatically, speeding up repetitive tasks. A must-have precision tool trusted by electricians, electronics technicians, and hobbyists worldwide.\",\n            \"price\": 14.24,\n            \"is_location_offer\": false,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": false,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKDX\",\n                \"by_name\": \"Brett Jordan\",\n                \"by_url\": \"https://unsplash.com/@brett_jordan\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/GamuDTVm02g\",\n                \"file_name\": \"pliers04.avif\",\n                \"title\": \"Long nose pliers\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83P\",\n                \"name\": \"Pliers\",\n                \"slug\": \"pliers\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM46\",\n                \"name\": \"MightyCraft Hardware\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR5BQRKH88NVRPG15MWA\",\n            \"name\": \"Slip Joint Pliers\",\n            \"description\": \"Adjustable slip joint pliers that feature a two-position pivot mechanism for switching between regular and wide jaw openings to accommodate different fastener sizes. The PVC-coated handles offer a comfortable, non-slip grip while the precisely machined jaws securely grasp round, flat, and hexagonal objects without slipping. Constructed from durable drop-forged carbon steel that has been heat-treated to withstand heavy daily use in professional environments. The curved jaw section grips pipes and cylindrical objects, while the flat front surface handles nuts, bolts, and sheet materials. A wire cutter integrated near the pivot handles light cutting tasks without reaching for a separate tool. Perfect for plumbing, automotive, HVAC, and general maintenance work where a single versatile gripping tool saves time.\",\n            \"price\": 9.17,\n            \"is_location_offer\": false,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKDY\",\n                \"by_name\": \"Yasin Hasan\",\n                \"by_url\": \"https://unsplash.com/@yasin\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/dwlxTSpfKXg\",\n                \"file_name\": \"pliers05.avif\",\n                \"title\": \"Slip joint pliers\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83P\",\n                \"name\": \"Pliers\",\n                \"slug\": \"pliers\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM46\",\n                \"name\": \"MightyCraft Hardware\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR5E3ENQ39PK4ZC44530\",\n            \"name\": \"Claw Hammer with Shock Reduction Grip\",\n            \"description\": \"Ergonomic claw hammer featuring an advanced shock reduction grip system that absorbs up to 70% of impact vibrations, protecting your wrist, elbow, and shoulder during prolonged nailing sessions. The 450g carbon steel head is precision-balanced and heat-treated for maximum hardness, ensuring accurate nail driving with minimal effort on every swing. The curved claw design effortlessly removes nails without damaging surrounding wood surfaces, making it equally useful for construction and renovation work. A fiberglass-reinforced handle combines lightweight strength with exceptional durability that far outlasts traditional wooden handles. The overmolded soft-grip zone conforms to your hand shape for a custom-feeling, fatigue-free hold throughout long working days. Recommended for professional framing, carpentry, and renovation projects where operator comfort matters as much as striking performance.\",\n            \"price\": 13.41,\n            \"is_location_offer\": true,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKDZ\",\n                \"by_name\": \"iMattSmart\",\n                \"by_url\": \"https://unsplash.com/@imattsmart\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/jaLaLQdkBOE\",\n                \"file_name\": \"hammer01.avif\",\n                \"title\": \"Claw Hammer\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83J\",\n                \"name\": \"Hammer\",\n                \"slug\": \"hammer\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM45\",\n                \"name\": \"ForgeFlex Tools\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR5GA6T1DPGC6WDY9NR2\",\n            \"name\": \"Hammer\",\n            \"description\": \"A dependable standard claw hammer suitable for driving and removing nails in everyday construction, carpentry, and home improvement projects. The 350g carbon steel head is drop-forged and heat-treated for maximum hardness, then fitted to a traditional wooden handle that provides natural shock absorption with each strike. Well-balanced weight distribution between the head and handle ensures accurate strikes with minimal wrist effort, reducing fatigue during repetitive nailing tasks. The polished face resists rust and provides a smooth surface that drives nails cleanly without leaving marks on finish materials. A gently curved claw provides reliable nail extraction leverage without excessive force. This versatile hammer belongs in every toolbox, from professional carpentry workshops to home garages and apartment maintenance kits.\",\n            \"price\": 12.58,\n            \"is_location_offer\": false,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKE0\",\n                \"by_name\": \"Jozsef Hocza\",\n                \"by_url\": \"https://unsplash.com/@hocza\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/D3nouOYbALc\",\n                \"file_name\": \"hammer02.avif\",\n                \"title\": \"Hammer\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83J\",\n                \"name\": \"Hammer\",\n                \"slug\": \"hammer\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM45\",\n                \"name\": \"ForgeFlex Tools\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR5H3KVH7G61MJK2KHMJ\",\n            \"name\": \"Claw Hammer\",\n            \"description\": \"Traditional claw hammer with a polished carbon steel head engineered for driving and removing nails with precision and confidence. The rubber-wrapped handle provides a secure, comfortable grip even in wet, dusty, or cold conditions where bare metal or wood handles would slip. At 500g, it offers the ideal balance between striking power and maneuverability for general carpentry, framing, and construction tasks. The curved claw design allows for smooth nail extraction without gouging or marring wood surfaces, protecting your finished work. The head-to-handle connection uses an epoxy-bonded wedge system that prevents loosening over time. A reliable, no-nonsense tool that professional carpenters and weekend builders alike reach for every day.\",\n            \"price\": 11.48,\n            \"is_location_offer\": true,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKE1\",\n                \"by_name\": \"Andrew George\",\n                \"by_url\": \"https://unsplash.com/@andrewjoegeorge\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/YU2mCvXR0wA\",\n                \"file_name\": \"hammer03.avif\",\n                \"title\": \"Claw Hammer\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83J\",\n                \"name\": \"Hammer\",\n                \"slug\": \"hammer\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM46\",\n                \"name\": \"MightyCraft Hardware\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR5M87H2K13ZC9P7NGKN\",\n            \"name\": \"Thor Hammer\",\n            \"description\": \"The legendary Thor Hammer combines premium craftsmanship with raw striking power in a tool that is truly built to last generations. Forged from Uru metal with a hand-wrapped leather grip, this extraordinary 5kg masterpiece delivers unmatched impact force for the most demanding demolition, forging, and heavy construction tasks. The perfectly balanced oversized head ensures every swing transfers maximum energy to the target, while the enlarged striking face covers more surface area than any conventional hammer. Despite its impressive mass, the ergonomic handle design and precise weight distribution allow for surprisingly controlled, accurate swings. This is not merely a tool but a statement piece for those who accept nothing less than the absolute best in their workshop. Comes with a lifetime warranty because true legends never fade. Please note: only one Thor Hammer is permitted per customer.\",\n            \"price\": 11.14,\n            \"is_location_offer\": false,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKE2\",\n                \"by_name\": \"ANIRUDH\",\n                \"by_url\": \"https://unsplash.com/@lanirudhreddy\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/3esjG-nlgyk\",\n                \"file_name\": \"hammer04.avif\",\n                \"title\": \"Hammer\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83J\",\n                \"name\": \"Hammer\",\n                \"slug\": \"hammer\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM45\",\n                \"name\": \"ForgeFlex Tools\"\n            }\n        }\n    ],\n    \"from\": 1,\n    \"last_page\": 6,\n    \"per_page\": 9,\n    \"to\": 9,\n    \"total\": 50\n}"
+            }
+          ]
+        },
+        {
+          "name": "Add item to cart Copy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": \"{{productId}}\",\n  \"quantity\": 1\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "{{cartId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Cart Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"item removed\", () => pm.response.to.have.status(204));",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}/product/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "{{cartId}}",
+                "product",
+                "{{productId}}"
+              ]
+            },
+            "description": "Delete Cart"
+          },
+          "response": [
+            {
+              "name": "Successful operation",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/carts/:cartId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts",
+                    ":cartId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "cartId",
+                      "value": "1",
+                      "description": "The cartId parameter in path"
+                    }
+                  ]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Returns when user is not authenticated",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts/:cartId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts",
+                    ":cartId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "cartId",
+                      "value": "1",
+                      "description": "The cartId parameter in path"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}"
+            },
+            {
+              "name": "Returns when the resource is not found",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts/:cartId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts",
+                    ":cartId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "cartId",
+                      "value": "1",
+                      "description": "The cartId parameter in path"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Resource not found\"\n}"
+            },
+            {
+              "name": "Returns when the method is not allowed for the requested route",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts/:cartId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts",
+                    ":cartId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "cartId",
+                      "value": "1",
+                      "description": "The cartId parameter in path"
+                    }
+                  ]
+                }
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Method is not allowed for the requested route\"\n}"
+            },
+            {
+              "name": "Returns when the entity is used elsewhere",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/carts/:cartId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts",
+                    ":cartId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "cartId",
+                      "value": "1",
+                      "description": "The cartId parameter in path"
+                    }
+                  ]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Returns when the server was not able to process the content",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/carts/:cartId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts",
+                    ":cartId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "cartId",
+                      "value": "1",
+                      "description": "The cartId parameter in path"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Retrieve specific cart Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"cart is now empty\", () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.cart_items).to.be.an(\"array\").that.is.empty;",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"product_id\": \"{{productId}}\", \"quantity\": 1 }\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "{{cartId}}"
+              ]
+            },
+            "description": "Retrieve specific cart"
+          },
+          "response": [
+            {
+              "name": "Successful operation",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts/:cartId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts",
+                    ":cartId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "cartId",
+                      "value": "1",
+                      "description": "The cartId parameter in path"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"string\"\n}"
+            },
+            {
+              "name": "Returns when the resource is not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts/:cartId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts",
+                    ":cartId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "cartId",
+                      "value": "1",
+                      "description": "The cartId parameter in path"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Requested item not found\"\n}"
+            },
+            {
+              "name": "Returns when the method is not allowed for the requested route",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts/:cartId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts",
+                    ":cartId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "cartId",
+                      "value": "1",
+                      "description": "The cartId parameter in path"
+                    }
+                  ]
+                }
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Method is not allowed for the requested route\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "End-to-End (payment)",
+      "item": [
+        {
+          "name": "Login customer Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"login succeeded\", () => pm.response.to.have.status(200));",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.environment.set(\"authToken\", body.access_token);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@practicesoftwaretesting.com\",\n  \"password\": \"welcome01\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "A token",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"customer@practicesoftwaretesting.com\",\n  \"password\": \"welcome01\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/users/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"access_token\": \"super-secret-token\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 120\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create a new cart Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"cart created\", () => pm.response.to.have.status(201));",
+                  "pm.environment.set(\"cartId\", pm.response.json().id);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/carts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts"
+              ]
+            },
+            "description": "Create a new cart"
+          },
+          "response": [
+            {
+              "name": "Create cartId",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"1234\"\n}"
+            },
+            {
+              "name": "Returns when the resource is not found",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Requested item not found\"\n}"
+            },
+            {
+              "name": "Returns when the method is not allowed for the requested route",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts"
+                  ]
+                }
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Method is not allowed for the requested route\"\n}"
+            },
+            {
+              "name": "Returns when the server was not able to process the content",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/carts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Retrieve all products Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"productId\", pm.response.json().data[0].id);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/products?sort=name,asc&page=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "by_brand",
+                  "value": "string",
+                  "description": "Id of brand",
+                  "disabled": true
+                },
+                {
+                  "key": "by_category",
+                  "value": "string",
+                  "description": "Id of category",
+                  "disabled": true
+                },
+                {
+                  "key": "is_rental",
+                  "value": "string",
+                  "description": "Indication if we like to retrieve rentals products",
+                  "disabled": true
+                },
+                {
+                  "key": "between",
+                  "value": "string",
+                  "description": "Can be used to define a price range, like: price,10,30",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "name,asc",
+                  "description": "Can be used to sort based on specific column value, like: name,asc OR name,desc OR price,asc OR price,desc"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "pagenumber"
+                }
+              ]
+            },
+            "description": "Retrieve all products"
+          },
+          "response": [
+            {
+              "name": "Returns when the resource is not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/products?by_brand=string&by_category=string&is_rental=string&between=string&sort=string&page=6018",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "description": "Id of brand",
+                      "key": "by_brand",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Id of category",
+                      "key": "by_category",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Indication if we like to retrieve rentals products",
+                      "key": "is_rental",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Can be used to define a price range, like: price,10,30",
+                      "key": "between",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Can be used to sort based on specific column value, like: name,asc OR name,desc OR price,asc OR price,desc",
+                      "key": "sort",
+                      "value": "string"
+                    },
+                    {
+                      "description": "pagenumber",
+                      "key": "page",
+                      "value": "6018"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Requested item not found\"\n}"
+            },
+            {
+              "name": "Returns when the method is not allowed for the requested route",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/products?by_brand=string&by_category=string&is_rental=string&between=string&sort=string&page=6018",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "description": "Id of brand",
+                      "key": "by_brand",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Id of category",
+                      "key": "by_category",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Indication if we like to retrieve rentals products",
+                      "key": "is_rental",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Can be used to define a price range, like: price,10,30",
+                      "key": "between",
+                      "value": "string"
+                    },
+                    {
+                      "description": "Can be used to sort based on specific column value, like: name,asc OR name,desc OR price,asc OR price,desc",
+                      "key": "sort",
+                      "value": "string"
+                    },
+                    {
+                      "description": "pagenumber",
+                      "key": "page",
+                      "value": "6018"
+                    }
+                  ]
+                }
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Method is not allowed for the requested route\"\n}"
+            },
+            {
+              "name": "200 response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/products?by_brand=&by_category=&is_rental=&between=&sort=&page=",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "by_brand",
+                      "value": "",
+                      "description": "Id of brand"
+                    },
+                    {
+                      "key": "by_category",
+                      "value": "",
+                      "description": "Id of category"
+                    },
+                    {
+                      "key": "is_rental",
+                      "value": "",
+                      "description": "Indication if we like to retrieve rentals products"
+                    },
+                    {
+                      "key": "between",
+                      "value": "",
+                      "description": "Can be used to define a price range, like: price,10,30"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "",
+                      "description": "Can be used to sort based on specific column value, like: name,asc OR name,desc OR price,asc OR price,desc"
+                    },
+                    {
+                      "key": "page",
+                      "value": "",
+                      "description": "pagenumber"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Date",
+                  "value": "Tue, 04 Aug 2026 20:45:07 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "Apache/2.4.52 (Ubuntu)"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "max-age=120, public"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "Content-Disposition"
+                },
+                {
+                  "key": "Upgrade",
+                  "value": "h2"
+                },
+                {
+                  "key": "Connection",
+                  "value": "Upgrade, close"
+                },
+                {
+                  "key": "ETag",
+                  "value": "\"372fe288f25642ccc3ce3daecb80fec3-gzip\""
+                },
+                {
+                  "key": "Vary",
+                  "value": "Accept-Encoding"
+                },
+                {
+                  "key": "Content-Encoding",
+                  "value": "gzip"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "4279"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"current_page\": 1,\n    \"data\": [\n        {\n            \"id\": \"01KZ75SR4W1QZDQY9DFKGZEH72\",\n            \"name\": \"Combination Pliers\",\n            \"description\": \"Versatile combination pliers designed for gripping, bending, and cutting wire with ease. Featuring chrome vanadium steel construction with induction-hardened cutting edges, these pliers deliver excellent grip and leverage for a wide range of tasks. The precision-machined jaws combine flat gripping surfaces with a pipe-grip section and integrated wire cutter for true multi-purpose functionality. Ergonomic bi-component handles reduce hand fatigue during extended use and provide a secure hold even with oily or gloved hands. The joint is precisely fitted to eliminate play and ensure smooth operation over thousands of cycles. Ideal for electricians, mechanics, and DIY enthusiasts tackling everyday projects around the workshop or job site.\",\n            \"price\": 14.15,\n            \"is_location_offer\": false,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKDT\",\n                \"by_name\": \"Helinton Fantin\",\n                \"by_url\": \"https://unsplash.com/@fantin\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/W8BNwvOvW4M\",\n                \"file_name\": \"pliers01.avif\",\n                \"title\": \"Combination pliers\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83P\",\n                \"name\": \"Pliers\",\n                \"slug\": \"pliers\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM45\",\n                \"name\": \"ForgeFlex Tools\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR51GW2X13FHQQSCAKCJ\",\n            \"name\": \"Pliers\",\n            \"description\": \"Reliable general-purpose pliers crafted from drop-forged carbon steel for long-lasting durability in demanding working conditions. The serrated jaws provide a firm grip on a variety of materials including wire, nails, small fasteners, and irregularly shaped objects. Comfortable rubber-coated handles absorb vibration and reduce hand fatigue during extended use, while the non-slip surface ensures confident handling. The precision pivot joint maintains alignment under load, delivering smooth, controlled jaw action with every squeeze. Heat-treated steel construction resists wear and deformation even under heavy use. A must-have foundational tool for any workshop, equally suited for professional tradespeople and home repair projects.\",\n            \"price\": 12.01,\n            \"is_location_offer\": false,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKDV\",\n                \"by_name\": \"Everyday basics\",\n                \"by_url\": \"https://unsplash.com/@zanardi\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/I8eTuMmxIfo\",\n                \"file_name\": \"pliers02.avif\",\n                \"title\": \"Pliers\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83P\",\n                \"name\": \"Pliers\",\n                \"slug\": \"pliers\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM45\",\n                \"name\": \"ForgeFlex Tools\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR55M66Z797N5ES43CE9\",\n            \"name\": \"Bolt Cutters\",\n            \"description\": \"Heavy-duty bolt cutters engineered to slice through hardened bolts, chains, padlocks, and wire fencing with minimal effort. The compound leverage mechanism multiplies your cutting force by a factor of 30, enabling clean cuts through materials up to 10mm in diameter. Hardened alloy steel blades are precisely ground and heat-treated to maintain a sharp edge through years of repeated use on tough materials. Ergonomic rubber grips and the generous 750mm handle length provide excellent control, leverage, and reach during overhead or awkward-angle cuts. An adjustable blade tension screw lets you fine-tune the jaw alignment for optimal cutting performance. Built for demolition crews, locksmiths, fencing contractors, and maintenance professionals who need reliable cutting power day after day.\",\n            \"price\": 48.41,\n            \"is_location_offer\": true,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKDW\",\n                \"by_name\": \"Michael Dziedzic\",\n                \"by_url\": \"https://unsplash.com/@lazycreekimages\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/pM9pkc9J918\",\n                \"file_name\": \"pliers03.avif\",\n                \"title\": \"Bolt cutters\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83P\",\n                \"name\": \"Pliers\",\n                \"slug\": \"pliers\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM46\",\n                \"name\": \"MightyCraft Hardware\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR58NT1ZR9R8K3XZMF3G\",\n            \"name\": \"Long Nose Pliers\",\n            \"description\": \"Precision long nose pliers with narrow tapered jaws designed for reaching into tight, confined spaces and bending fine wire with accuracy. Made from chrome vanadium steel with induction-hardened cutting edges that cleanly sever copper, brass, and steel wire without crushing or fraying. The slim jaw profile tapers to a fine point, making these pliers indispensable for electrical terminal work, jewelry making, and intricate mechanical repairs. Bi-component comfort grips minimize hand strain during detailed tasks requiring a steady hand and controlled pressure. The leaf-spring joint returns the handles to the open position automatically, speeding up repetitive tasks. A must-have precision tool trusted by electricians, electronics technicians, and hobbyists worldwide.\",\n            \"price\": 14.24,\n            \"is_location_offer\": false,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": false,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKDX\",\n                \"by_name\": \"Brett Jordan\",\n                \"by_url\": \"https://unsplash.com/@brett_jordan\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/GamuDTVm02g\",\n                \"file_name\": \"pliers04.avif\",\n                \"title\": \"Long nose pliers\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83P\",\n                \"name\": \"Pliers\",\n                \"slug\": \"pliers\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM46\",\n                \"name\": \"MightyCraft Hardware\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR5BQRKH88NVRPG15MWA\",\n            \"name\": \"Slip Joint Pliers\",\n            \"description\": \"Adjustable slip joint pliers that feature a two-position pivot mechanism for switching between regular and wide jaw openings to accommodate different fastener sizes. The PVC-coated handles offer a comfortable, non-slip grip while the precisely machined jaws securely grasp round, flat, and hexagonal objects without slipping. Constructed from durable drop-forged carbon steel that has been heat-treated to withstand heavy daily use in professional environments. The curved jaw section grips pipes and cylindrical objects, while the flat front surface handles nuts, bolts, and sheet materials. A wire cutter integrated near the pivot handles light cutting tasks without reaching for a separate tool. Perfect for plumbing, automotive, HVAC, and general maintenance work where a single versatile gripping tool saves time.\",\n            \"price\": 9.17,\n            \"is_location_offer\": false,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKDY\",\n                \"by_name\": \"Yasin Hasan\",\n                \"by_url\": \"https://unsplash.com/@yasin\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/dwlxTSpfKXg\",\n                \"file_name\": \"pliers05.avif\",\n                \"title\": \"Slip joint pliers\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83P\",\n                \"name\": \"Pliers\",\n                \"slug\": \"pliers\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM46\",\n                \"name\": \"MightyCraft Hardware\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR5E3ENQ39PK4ZC44530\",\n            \"name\": \"Claw Hammer with Shock Reduction Grip\",\n            \"description\": \"Ergonomic claw hammer featuring an advanced shock reduction grip system that absorbs up to 70% of impact vibrations, protecting your wrist, elbow, and shoulder during prolonged nailing sessions. The 450g carbon steel head is precision-balanced and heat-treated for maximum hardness, ensuring accurate nail driving with minimal effort on every swing. The curved claw design effortlessly removes nails without damaging surrounding wood surfaces, making it equally useful for construction and renovation work. A fiberglass-reinforced handle combines lightweight strength with exceptional durability that far outlasts traditional wooden handles. The overmolded soft-grip zone conforms to your hand shape for a custom-feeling, fatigue-free hold throughout long working days. Recommended for professional framing, carpentry, and renovation projects where operator comfort matters as much as striking performance.\",\n            \"price\": 13.41,\n            \"is_location_offer\": true,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKDZ\",\n                \"by_name\": \"iMattSmart\",\n                \"by_url\": \"https://unsplash.com/@imattsmart\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/jaLaLQdkBOE\",\n                \"file_name\": \"hammer01.avif\",\n                \"title\": \"Claw Hammer\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83J\",\n                \"name\": \"Hammer\",\n                \"slug\": \"hammer\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM45\",\n                \"name\": \"ForgeFlex Tools\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR5GA6T1DPGC6WDY9NR2\",\n            \"name\": \"Hammer\",\n            \"description\": \"A dependable standard claw hammer suitable for driving and removing nails in everyday construction, carpentry, and home improvement projects. The 350g carbon steel head is drop-forged and heat-treated for maximum hardness, then fitted to a traditional wooden handle that provides natural shock absorption with each strike. Well-balanced weight distribution between the head and handle ensures accurate strikes with minimal wrist effort, reducing fatigue during repetitive nailing tasks. The polished face resists rust and provides a smooth surface that drives nails cleanly without leaving marks on finish materials. A gently curved claw provides reliable nail extraction leverage without excessive force. This versatile hammer belongs in every toolbox, from professional carpentry workshops to home garages and apartment maintenance kits.\",\n            \"price\": 12.58,\n            \"is_location_offer\": false,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKE0\",\n                \"by_name\": \"Jozsef Hocza\",\n                \"by_url\": \"https://unsplash.com/@hocza\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/D3nouOYbALc\",\n                \"file_name\": \"hammer02.avif\",\n                \"title\": \"Hammer\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83J\",\n                \"name\": \"Hammer\",\n                \"slug\": \"hammer\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM45\",\n                \"name\": \"ForgeFlex Tools\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR5H3KVH7G61MJK2KHMJ\",\n            \"name\": \"Claw Hammer\",\n            \"description\": \"Traditional claw hammer with a polished carbon steel head engineered for driving and removing nails with precision and confidence. The rubber-wrapped handle provides a secure, comfortable grip even in wet, dusty, or cold conditions where bare metal or wood handles would slip. At 500g, it offers the ideal balance between striking power and maneuverability for general carpentry, framing, and construction tasks. The curved claw design allows for smooth nail extraction without gouging or marring wood surfaces, protecting your finished work. The head-to-handle connection uses an epoxy-bonded wedge system that prevents loosening over time. A reliable, no-nonsense tool that professional carpenters and weekend builders alike reach for every day.\",\n            \"price\": 11.48,\n            \"is_location_offer\": true,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKE1\",\n                \"by_name\": \"Andrew George\",\n                \"by_url\": \"https://unsplash.com/@andrewjoegeorge\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/YU2mCvXR0wA\",\n                \"file_name\": \"hammer03.avif\",\n                \"title\": \"Claw Hammer\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83J\",\n                \"name\": \"Hammer\",\n                \"slug\": \"hammer\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM46\",\n                \"name\": \"MightyCraft Hardware\"\n            }\n        },\n        {\n            \"id\": \"01KZ75SR5M87H2K13ZC9P7NGKN\",\n            \"name\": \"Thor Hammer\",\n            \"description\": \"The legendary Thor Hammer combines premium craftsmanship with raw striking power in a tool that is truly built to last generations. Forged from Uru metal with a hand-wrapped leather grip, this extraordinary 5kg masterpiece delivers unmatched impact force for the most demanding demolition, forging, and heavy construction tasks. The perfectly balanced oversized head ensures every swing transfers maximum energy to the target, while the enlarged striking face covers more surface area than any conventional hammer. Despite its impressive mass, the ergonomic handle design and precise weight distribution allow for surprisingly controlled, accurate swings. This is not merely a tool but a statement piece for those who accept nothing less than the absolute best in their workshop. Comes with a lifetime warranty because true legends never fade. Please note: only one Thor Hammer is permitted per customer.\",\n            \"price\": 11.14,\n            \"is_location_offer\": false,\n            \"is_rental\": false,\n            \"co2_rating\": \"D\",\n            \"in_stock\": true,\n            \"is_eco_friendly\": false,\n            \"product_image\": {\n                \"id\": \"01KZ75SR4AHMRE6AG5ZHEWFKE2\",\n                \"by_name\": \"ANIRUDH\",\n                \"by_url\": \"https://unsplash.com/@lanirudhreddy\",\n                \"source_name\": \"Unsplash\",\n                \"source_url\": \"https://unsplash.com/photos/3esjG-nlgyk\",\n                \"file_name\": \"hammer04.avif\",\n                \"title\": \"Hammer\"\n            },\n            \"category\": {\n                \"id\": \"01KZ75SR3MVCQ0BSV7W8JHF83J\",\n                \"name\": \"Hammer\",\n                \"slug\": \"hammer\"\n            },\n            \"brand\": {\n                \"id\": \"01KZ75SQSARJTPPSFYCDMYKM45\",\n                \"name\": \"ForgeFlex Tools\"\n            }\n        }\n    ],\n    \"from\": 1,\n    \"last_page\": 6,\n    \"per_page\": 9,\n    \"to\": 9,\n    \"total\": 50\n}"
+            }
+          ]
+        },
+        {
+          "name": "Add item to cart Copy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": \"{{productId}}\",\n  \"quantity\": 1\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "{{cartId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve specific cart Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"item added\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"cart contains the added product\", () => {",
+                  "  const body = pm.response.json();",
+                  "  const found = body.cart_items.some(item => item.product_id === pm.environment.get(\"productId\"));",
+                  "  pm.expect(found).to.be.true;",
+                  "});",
+                  "",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"product_id\": \"{{productId}}\", \"quantity\": 1 }\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/carts/{{cartId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carts",
+                "{{cartId}}"
+              ]
+            },
+            "description": "Retrieve specific cart"
+          },
+          "response": [
+            {
+              "name": "Successful operation",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts/:cartId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts",
+                    ":cartId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "cartId",
+                      "value": "1",
+                      "description": "The cartId parameter in path"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"string\"\n}"
+            },
+            {
+              "name": "Returns when the resource is not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts/:cartId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts",
+                    ":cartId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "cartId",
+                      "value": "1",
+                      "description": "The cartId parameter in path"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Requested item not found\"\n}"
+            },
+            {
+              "name": "Returns when the method is not allowed for the requested route",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/carts/:cartId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "carts",
+                    ":cartId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "cartId",
+                      "value": "1",
+                      "description": "The cartId parameter in path"
+                    }
+                  ]
+                }
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Method is not allowed for the requested route\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Lookup address details by postcode Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"lookup succeeded\", () => pm.response.to.have.status(200));",
+                  "const addr = pm.response.json();",
+                  "pm.environment.set(\"billingStreet\", addr.street);",
+                  "pm.environment.set(\"billingCity\", addr.city);",
+                  "pm.environment.set(\"billingState\", addr.state);",
+                  "pm.environment.set(\"billingCountry\", addr.country);",
+                  "pm.environment.set(\"billingPostalCode\", addr.postcode);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/postcode-lookup?country=United States&postcode=70772",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "postcode-lookup"
+              ],
+              "query": [
+                {
+                  "key": "country",
+                  "value": "United States"
+                },
+                {
+                  "key": "postcode",
+                  "value": "70772"
+                },
+                {
+                  "key": "house_number",
+                  "value": "string",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns street, city and state for a given country/postcode/house number. The underlying source is configurable: a local faker driver (default) or an external HTTP service (e.g. a WireMock stub) when POSTCODE_LOOKUP_DRIVER=http."
+          },
+          "response": [
+            {
+              "name": "Address details",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/postcode-lookup?country=string&postcode=string&house_number=string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "postcode-lookup"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "string"
+                    },
+                    {
+                      "key": "postcode",
+                      "value": "string"
+                    },
+                    {
+                      "key": "house_number",
+                      "value": "string"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"street\": \"string\",\n  \"house_number\": \"string\",\n  \"city\": \"string\",\n  \"state\": \"string\",\n  \"country\": \"string\",\n  \"postcode\": \"string\"\n}"
+            },
+            {
+              "name": "Returns when the server was not able to process the content",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/postcode-lookup?country=string&postcode=string&house_number=string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "postcode-lookup"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "string"
+                    },
+                    {
+                      "key": "postcode",
+                      "value": "string"
+                    },
+                    {
+                      "key": "house_number",
+                      "value": "string"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Upstream lookup failure",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/postcode-lookup?country=string&postcode=string&house_number=string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "postcode-lookup"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "string"
+                    },
+                    {
+                      "key": "postcode",
+                      "value": "string"
+                    },
+                    {
+                      "key": "house_number",
+                      "value": "string"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Store new invoice Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"invoice created\", () => pm.response.to.have.status(201));",
+                  "pm.environment.set(\"invoiceNumber\", pm.response.json().invoice_number);",
+                  "pm.test(\"total matches product price\", () => {",
+                  "  pm.expect(pm.response.json().total).to.be.above(0);",
+                  "});",
+                  "",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"billing_street\": \"{{billingStreet}}\",\n  \"billing_city\": \"{{billingCity}}\",\n  \"billing_state\": \"{{billingState}}\",\n  \"billing_country\": \"{{billingCountry}}\",\n  \"billing_postal_code\": \"{{billingPostalCode}}\",\n  \"payment_method\": \"credit-card\",\n  \"cart_id\": \"{{cartId}}\",\n  \"payment_details\": {\n    \"credit_card_number\": \"1111-1111-1111-1111\",\n    \"expiration_date\": \"01/2032\",\n    \"cvv\": \"123\",\n    \"card_holder_name\": \"Allie\"\n  }\n}\n",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/invoices",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "invoices"
+              ]
+            },
+            "description": "Store new invoice"
+          },
+          "response": [
+            {
+              "name": "Successful operation",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"billing_street\": \"string\",\n  \"billing_city\": \"string\",\n  \"billing_state\": \"string\",\n  \"billing_country\": \"string\",\n  \"billing_postal_code\": \"string\",\n  \"payment_method\": \"bank-transfer\",\n  \"payment_details\": {\n    \"gift_card_number\": \"string\",\n    \"validation_code\": \"string\"\n  },\n  \"cart_id\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/invoices",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invoices"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"01JFG8Q5XKZJY4BEYQ87PC2Q1Y\",\n  \"user_id\": \"01JFG8Q5XKZJY4BEYQ87PC2Q1Y\",\n  \"invoice_date\": \"2022-10-20 09:49:45\",\n  \"invoice_number\": \"INV-2022000002\",\n  \"billing_street\": \"string\",\n  \"billing_city\": \"string\",\n  \"billing_country\": \"string\",\n  \"billing_state\": \"string\",\n  \"billing_postal_code\": \"string\",\n  \"additional_discount_percentage\": 5802.504649633581,\n  \"additional_discount_amount\": 6323.094286087181,\n  \"subtotal\": 616.5209265453952,\n  \"total\": 7654.238648923406,\n  \"status\": \"COMPLETED\",\n  \"status_message\": \"\",\n  \"invoicelines\": [\n    {\n      \"id\": \"01JFG8Q5XKZJY4BEYQ87PC2Q1Y\",\n      \"invoice_id\": \"01JFG8Q5XKZJY4BEYQ87PC2Q1Y\",\n      \"product_id\": \"01JFG8Q5XKZJY4BEYQ87PC2Q1Y\",\n      \"unit_price\": 2881.1196087472013,\n      \"discount_percentage\": 530.867309316273,\n      \"discounted_price\": 3216.0424535277466,\n      \"quantity\": 3298,\n      \"product\": {\n        \"id\": \"01JFG8Q5XKZJY4BEYQ87PC2Q1Y\",\n        \"name\": \"new brand\",\n        \"description\": \"Lorum ipsum\",\n        \"price\": 9.99,\n        \"is_location_offer\": false,\n        \"is_rental\": true,\n        \"in_stock\": true,\n        \"co2_rating\": \"A\",\n        \"is_eco_friendly\": true,\n        \"brand\": {\n          \"id\": \"string\",\n          \"name\": \"new brand\",\n          \"slug\": \"new-brand\"\n        },\n        \"category\": {\n          \"id\": \"string\",\n          \"parent_id\": \"string\",\n          \"name\": \"new category\",\n          \"slug\": \"new-category\",\n          \"sub_categories\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/CategoryResponse detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/CategoryResponse detected>\"\n            }\n          ]\n        },\n        \"product_image\": {\n          \"by_name\": \"string\",\n          \"by_url\": \"string\",\n          \"source_name\": \"string\",\n          \"source_url\": \"string\",\n          \"file_name\": \"string\",\n          \"title\": \"string\",\n          \"id\": \"string\"\n        }\n      }\n    },\n    {\n      \"id\": \"01JFG8Q5XKZJY4BEYQ87PC2Q1Y\",\n      \"invoice_id\": \"01JFG8Q5XKZJY4BEYQ87PC2Q1Y\",\n      \"product_id\": \"01JFG8Q5XKZJY4BEYQ87PC2Q1Y\",\n      \"unit_price\": 2854.679044347036,\n      \"discount_percentage\": 7926.610401859169,\n      \"discounted_price\": 7432.509050938567,\n      \"quantity\": 2497,\n      \"product\": {\n        \"id\": \"01JFG8Q5XKZJY4BEYQ87PC2Q1Y\",\n        \"name\": \"new brand\",\n        \"description\": \"Lorum ipsum\",\n        \"price\": 9.99,\n        \"is_location_offer\": true,\n        \"is_rental\": false,\n        \"in_stock\": true,\n        \"co2_rating\": \"A\",\n        \"is_eco_friendly\": true,\n        \"brand\": {\n          \"id\": \"string\",\n          \"name\": \"new brand\",\n          \"slug\": \"new-brand\"\n        },\n        \"category\": {\n          \"id\": \"string\",\n          \"parent_id\": null,\n          \"name\": \"new category\",\n          \"slug\": \"new-category\",\n          \"sub_categories\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/CategoryResponse detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/CategoryResponse detected>\"\n            }\n          ]\n        },\n        \"product_image\": {\n          \"by_name\": \"string\",\n          \"by_url\": \"string\",\n          \"source_name\": \"string\",\n          \"source_url\": \"string\",\n          \"file_name\": \"string\",\n          \"title\": \"string\",\n          \"id\": \"string\"\n        }\n      }\n    }\n  ],\n  \"created_at\": \"2022-08-01 08:24:56\"\n}"
+            },
+            {
+              "name": "Returns when user is not authenticated",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"billing_street\": \"string\",\n  \"billing_city\": \"string\",\n  \"billing_state\": \"string\",\n  \"billing_country\": \"string\",\n  \"billing_postal_code\": \"string\",\n  \"payment_method\": \"bank-transfer\",\n  \"payment_details\": {\n    \"gift_card_number\": \"string\",\n    \"validation_code\": \"string\"\n  },\n  \"cart_id\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/invoices",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invoices"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}"
+            },
+            {
+              "name": "Returns when the resource is not found",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"billing_street\": \"string\",\n  \"billing_city\": \"string\",\n  \"billing_state\": \"string\",\n  \"billing_country\": \"string\",\n  \"billing_postal_code\": \"string\",\n  \"payment_method\": \"bank-transfer\",\n  \"payment_details\": {\n    \"gift_card_number\": \"string\",\n    \"validation_code\": \"string\"\n  },\n  \"cart_id\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/invoices",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invoices"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Requested item not found\"\n}"
+            },
+            {
+              "name": "Returns when the method is not allowed for the requested route",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"billing_street\": \"string\",\n  \"billing_city\": \"string\",\n  \"billing_state\": \"string\",\n  \"billing_country\": \"string\",\n  \"billing_postal_code\": \"string\",\n  \"payment_method\": \"bank-transfer\",\n  \"payment_details\": {\n    \"gift_card_number\": \"string\",\n    \"validation_code\": \"string\"\n  },\n  \"cart_id\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/invoices",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invoices"
+                  ]
+                }
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"message\": \"Method is not allowed for the requested route\"\n}"
+            },
+            {
+              "name": "Returns when the server was not able to process the content",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"billing_street\": \"string\",\n  \"billing_city\": \"string\",\n  \"billing_state\": \"string\",\n  \"billing_country\": \"string\",\n  \"billing_postal_code\": \"string\",\n  \"payment_method\": \"bank-transfer\",\n  \"payment_details\": {\n    \"gift_card_number\": \"string\",\n    \"validation_code\": \"string\"\n  },\n  \"cart_id\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/invoices",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invoices"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.practicesoftwaretesting.com"
+    }
+  ]
+}
